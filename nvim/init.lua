@@ -5,7 +5,7 @@ require('plugins.treesitter')
 require('plugins.lsp')
 require('plugins.completion')
 require('keymaps')
-
+-- inspired from https://github.com/agalea91/dotfiles/blob/main/nvim/lua/workflows.lua
  -- [[ Setting options ]]
 
  -- [[ Highlight on yank ]]

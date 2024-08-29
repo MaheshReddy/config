@@ -51,15 +51,19 @@ vim.opt.rtp:prepend(lazypath)
      opts = {
        workspaces = {
          {
-           name = "personal",
-           path = "~/ob_vaults/personal",
-         },
-         {
            name = "work",
-           path = "~/ob_vaults/work",
+           path = "/Users/elireddy/Documents/ob_vaults/work",
          },
+        {
+           name = "inbox",
+           path = "/Users/elireddy/Documents/ob_vaults/work/inbox",
+         }
        },
-
+       templates = {
+          subdir = "templates",
+          date_format = "%Y-%m-%d",
+          time_format = "%H:%M:%S",
+      },
        -- see below for full list of options 👇
      },
    },
