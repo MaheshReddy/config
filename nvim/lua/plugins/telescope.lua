@@ -1,32 +1,25 @@
  -- [[ Configure Telescope ]]
  -- See `:help telescope` and `:help telescope.setup()`
- require('telescope').setup {
+return {
+    "nvim-telescope/telescope.nvim",
+    branch = "0.1.x",
+    dependencies = {
+        "nvim-lua/plenary.nvim"
+    },
+
+    config = function()
+        local keymap = function(keys, func)
+            vim.keymap.set("n", keys, func, {})
+        end
+
+        require("telescope").setup({
    defaults = {
      layout_strategy = "vertical",
-     file_previewer = require('telescope.previewers').vim_buffer_cat.new,
      mappings = {
        i = {
          ['<C-u>'] = false,
          ['<C-d>'] = false,
-        -- Open in horizontal split
-        ["<C-x>"] = require('telescope.actions').select_horizontal,
-
-        -- Open in vertical split
-        ["<C-v>"] = require('telescope.actions').select_vertical,
-
-        -- Open in a new tab
-        ["<C-t>"] = require('telescope.actions').select_tab,
        },
-      n = {
-        -- Open in horizontal split
-        ["<C-x>"] = require('telescope.actions').select_horizontal,
-
-        -- Open in vertical split
-        ["<C-v>"] = require('telescope.actions').select_vertical,
-
-        -- Open in a new tab
-        ["<C-t>"] = require('telescope.actions').select_tab,
-      },
      },
      layout_config = {
       preview_height = 0.7,
@@ -38,9 +31,24 @@
       },
     },
    },
- }
+ })
+        local builtin = require("telescope.builtin")
 
- -- Enable telescope fzf native, if installed
- pcall(require('telescope').load_extension, 'fzf')
- pcall(require('telescope').load_extension, 'live_grep_args')
-
+        keymap("<leader>sf", builtin.find_files)
+        keymap("<leader>sn", function()
+            builtin.find_files {
+                cwd = vim.fn.stdpath "config"
+            }
+        end)
+        keymap("<leader><leader>", builtin.buffers)
+        keymap("<leader>s/", builtin.live_grep)
+        keymap("<leader>/", function()
+            builtin.current_buffer_fuzzy_find(
+                require('telescope.themes').get_dropdown {
+                    winblend = 10,
+                    previewer = false,
+                }
+            )
+        end)
+    end
+}

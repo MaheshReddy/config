@@ -58,55 +58,77 @@ vim.opt.updatetime = 250 -- Time in milliseconds to wait before triggering the p
  vim.o.undofile = true -- Save undo history
  vim.wo.signcolumn = 'yes' -- Keep signcolumn on by default
 
-vim.api.nvim_create_autocmd({"BufNewFile", "BufRead"}, {
-  pattern = "*.py",
-  callback = function()
-    vim.opt.textwidth = 79
-    vim.opt.colorcolumn = "79"
-  end
-}) -- python formatting
 
-vim.api.nvim_create_autocmd({"BufNewFile", "BufRead"}, {
-  pattern = {"*.js", "*.html", "*.css", "*.lua"},
-  callback = function()
-    vim.opt.tabstop = 2
-    vim.opt.softtabstop = 2
-    vim.opt.shiftwidth = 2
-  end
-}) -- javascript formatting
+-- https://sookocheff.com/post/vim/neovim-java-ide/
+-- disable language provider support (lua and vimscript plugins only)
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_ruby_provider = 0
+vim.g.loaded_node_provider = 0
+vim.g.loaded_python_provider = 0
+vim.g.loaded_python3_provider = 0
 
-vim.api.nvim_create_autocmd("BufReadPost", {
-    pattern = "*",
-    callback = function()
-      if vim.fn.line("'\"") > 0 and vim.fn.line("'\"") <= vim.fn.line("$") then
-        vim.cmd("normal! g`\"")
-      end
-    end
-}) -- return to last edit position when opening files
+ -- [[ Highlight on yank ]]
+ -- See `:help vim.highlight.on_yank()`
+ local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
+ vim.api.nvim_create_autocmd('TextYankPost', {
+   callback = function()
+     vim.highlight.on_yank()
+   end,
+   group = highlight_group,
+   pattern = '*',
+ })
 
-
-local HighlightYank = vim.api.nvim_create_augroup('HighlightYank', {})
-vim.api.nvim_create_autocmd('TextYankPost', {
-    group = HighlightYank,
-    pattern = '*',
-    callback = function()
-        vim.highlight.on_yank({
-            higroup = 'IncSearch',
-            timeout = 40,
-        })
-    end,
-}) -- highlight yanked text using the 'IncSearch' highlight group for 40ms
-
-local CleanOnSave = vim.api.nvim_create_augroup('CleanOnSave', {})
-vim.api.nvim_create_autocmd({"BufWritePre"}, {
-  group = CleanOnSave,
-  pattern = "*",
-  command = [[%s/\s\+$//e]],
-}) -- remove trailing whitespace from all lines before saving a file)
-
-local Black = vim.api.nvim_create_augroup("Black", { clear = true })
-vim.api.nvim_create_autocmd("bufWritePost", {
-  group = Black,
-  pattern = "*.py",
-  command = "silent !black %",
-})
+-- TODO enable these if you need them later.
+-- })
+--
+-- vim.api.nvim_create_autocmd({"BufNewFile", "BufRead"}, {
+--   pattern = "*.py",
+--   callback = function()
+--     vim.opt.textwidth = 79
+--     vim.opt.colorcolumn = "79"
+--   end
+-- }) -- python formatting
+--
+-- vim.api.nvim_create_autocmd({"BufNewFile", "BufRead"}, {
+--   pattern = {"*.js", "*.html", "*.css", "*.lua"},
+--   callback = function()
+--     vim.opt.tabstop = 2
+--     vim.opt.softtabstop = 2
+--     vim.opt.shiftwidth = 2
+--   end
+-- }) -- javascript formatting
+--
+-- vim.api.nvim_create_autocmd("BufReadPost", {
+--     pattern = "*",
+--     callback = function()
+--       if vim.fn.line("'\"") > 0 and vim.fn.line("'\"") <= vim.fn.line("$") then
+--         vim.cmd("normal! g`\"")
+--       end
+--     end
+-- }) -- return to last edit position when opening files
+--
+--
+-- local HighlightYank = vim.api.nvim_create_augroup('HighlightYank', {})
+-- vim.api.nvim_create_autocmd('TextYankPost', {
+--     group = HighlightYank,
+--     pattern = '*',
+--     callback = function()
+--         vim.highlight.on_yank({
+--             higroup = 'IncSearch',
+--             timeout = 40,
+--         })
+--     end,
+-- }) -- highlight yanked text using the 'IncSearch' highlight group for 40ms
+--
+-- local CleanOnSave = vim.api.nvim_create_augroup('CleanOnSave', {})
+-- vim.api.nvim_create_autocmd({"BufWritePre"}, {
+--   group = CleanOnSave,
+--   pattern = "*",
+--   command = [[%s/\s\+$//e]],
+-- }) -- remove trailing whitespace from all lines before saving a file)
+--
+-- local Black = vim.api.nvim_create_augroup("Black", { clear = true })
+-- vim.api.nvim_create_autocmd("bufWritePost", {
+--   group = Black,
+--   pattern = "*.py",
+--   command = "silent !black %",
