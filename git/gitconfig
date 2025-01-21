@@ -1,0 +1,22 @@
+[user]
+        email = elireddy@amazon.com
+        name = Mahesh Elireddy
+[color]
+        ui = auto
+[core]
+        pager = less -FMRiX
+        excludesfile = /home/elireddy/.config/git/excludes
+        editor = vim
+[push]
+        default = simple
+[alias]
+        dag = log --graph --format='format:%C(yellow)%h%C(reset) %C(blue)\"%an\" <%ae>%C(reset) %C(magenta)%ar%C(reset)%C(auto)%d%C(reset)%n%s' --date-order
+        hist = log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short -n 10
+        co = checkout
+        pr = pull --rebase
+[amazon]
+        append-cr-url = true
+        pull-request-by-default = true
+[credential]
+        helper = cache--daemon
+
