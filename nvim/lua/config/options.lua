@@ -41,7 +41,7 @@ vim.opt.backup = false -- do not keep a backup file
 vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir" -- set directory where undo files are stored
 vim.opt.undofile = true -- save undo history to a file
 
-vim.opt.hlsearch = false -- do not highlight all matches on previous search pattern
+vim.opt.hlsearch = true-- do not highlight all matches on previous search pattern
 vim.opt.incsearch = true -- incrementally highlight searches as you type
 
 vim.opt.termguicolors = true -- enable true color support
@@ -57,7 +57,6 @@ vim.opt.updatetime = 250 -- Time in milliseconds to wait before triggering the p
  vim.o.breakindent = true -- Enable break indent
  vim.o.undofile = true -- Save undo history
  vim.wo.signcolumn = 'yes' -- Keep signcolumn on by default
-
 
 -- https://sookocheff.com/post/vim/neovim-java-ide/
 -- disable language provider support (lua and vimscript plugins only)

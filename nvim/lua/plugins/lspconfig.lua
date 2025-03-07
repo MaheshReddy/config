@@ -53,8 +53,6 @@ return {
                 -- place other packages you want to install but not configure with mason here
                 -- e.g. language servers not configured with nvim-lspconfig, linters, formatters, etc.
               "stylua",
-              "jdtls",
-              "pylsp",
             }
         )
         mason_tool_installer.setup({
@@ -73,9 +71,13 @@ return {
                     lspconfig[server_name].setup(server_config)
                 end,
                 ['jdtls'] = function() end,
+                ['clangd'] = function() end,
                 ['pylsp'] = function() end,
             },
         })
+
+        -- Creates an autocommand event handler, defined by callback (Lua function or Vimscript function name string) or command (Ex command string). When LspAttach event happens call run this configuration.
+        -- You can specify commands to be executed automatically when reading or writing a file, when entering or leaving a buffer or window, and when exiting Vim.
 
         vim.api.nvim_create_autocmd("LspAttach", {
             group = vim.api.nvim_create_augroup("lsp-attach-keybinds", { clear = true }),

@@ -132,5 +132,5 @@ local config = {
     -- run our bemol function when the LSP attaches to the buffer
     on_attach = bemol,
 }
-
+-- LSP extensions for Neovim and eclipse.jdt.ls more help jdtls
 jdtls.start_or_attach(config)
