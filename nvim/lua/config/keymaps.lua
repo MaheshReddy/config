@@ -40,11 +40,16 @@ vim.keymap.set('n', '<Tab>', ':tabnext<CR>', { noremap = true, silent = true })
 -- Switch to the previous tab
 vim.keymap.set('n', '<S-Tab>', ':tabprevious<CR>', { noremap = true, silent = true })
 
--- Move the current tab to the right
-vim.keymap.set('n', '<C-l>', ':tabnext<CR>', { noremap = true, silent = true })
-
--- Move the current tab to the left
-vim.keymap.set('n', '<C-h>', ':tabprevious<CR>', { noremap = true, silent = true })
-
 -- Close the current tab
 vim.keymap.set('n', '<leader><C-w>', ':tabclose<CR>', { noremap = true, silent = true })
+
+-- OpenCode
+local oc = require('config.opencode')
+vim.keymap.set('v', '<leader>oc', ":<C-u>lua require('config.opencode').send_selection()<CR>", { desc = 'OpenCode: send selection + prompt' })
+vim.keymap.set('n', '<leader>op', oc.send_prompt,    { desc = 'OpenCode: send prompt' })
+vim.keymap.set('n', '<leader>of', oc.send_file,      { desc = 'OpenCode: send current file + prompt' })
+vim.keymap.set('n', '<leader>oa', oc.abort,          { desc = 'OpenCode: abort running prompt' })
+vim.keymap.set('n', '<leader>or', oc.reset_session,  { desc = 'OpenCode: reset session' })
+vim.keymap.set('n', '<leader>os', oc.pick_session,   { desc = 'OpenCode: pick existing session' })
+vim.keymap.set('n', '<leader>oh', oc.health,         { desc = 'OpenCode: check server health' })
+vim.keymap.set('n', '<leader>oX', oc.clear_all_sessions, { desc = 'OpenCode: clear all sessions' })

@@ -1,6 +1,7 @@
 require('config.options')
 require('config.lazy')
 require('config.keymaps')
+require('config.opencode')
 require('plugins.telescope')
 require('plugins.treesitter')
 require('plugins.lspconfig')

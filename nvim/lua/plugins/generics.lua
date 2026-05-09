@@ -6,8 +6,6 @@ return {
    -- Git related plugins, ability to run Git commands within nvim
    'tpope/vim-fugitive',
 
-   -- Detect tabstop and shiftwidth automatically
-   'tpope/vim-sleuth',
    'simrat39/rust-tools.nvim',
    'nvim-neotest/nvim-nio',
    {
@@ -102,18 +100,37 @@ return {
        vim.cmd.colorscheme 'onedark'
      end,
    },
-   {
-     -- Set lualine as statusline
-     'nvim-lualine/lualine.nvim',
-     -- See `:help lualine.txt`
-     opts = {
-       options = {
-         icons_enabled = false,
-         theme = 'onedark',
-         component_separators = '|',
-         section_separators = '',
-       },
-     },
+    {
+      -- Set lualine as statusline
+      'nvim-lualine/lualine.nvim',
+      -- See `:help lualine.txt`
+      config = function()
+        local function oc_status()
+          local ok, oc = pcall(require, 'config.opencode')
+          if not ok then return '' end
+          local s = oc.status()
+          if s == 'busy' then return '[OC: thinking...]' end
+          if s == 'idle' then return '[OC: ready]' end
+          return '' -- 'off' — show nothing
+        end
+
+        require('lualine').setup({
+          options = {
+            icons_enabled = false,
+            theme = 'onedark',
+            component_separators = '|',
+            section_separators = '',
+          },
+          sections = {
+            lualine_a = { 'mode' },
+            lualine_b = { 'branch', 'diff', 'diagnostics' },
+            lualine_c = { 'filename' },
+            lualine_x = { oc_status, 'encoding', 'fileformat', 'filetype' },
+            lualine_y = { 'progress' },
+            lualine_z = { 'location' },
+          },
+        })
+      end,
    },
 
    {
